@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Psikogenetik Dictionary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f5f7;
+      --card: #ffffff;
+      --ink: #111;
+      --muted: #777;
+      --accent: #f28b38;
+      --border: #1d1d1d;
+      --shadow: 0 18px 40px rgba(0,0,0,0.08);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Montserrat", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      padding: 28px;
+    }
+
+    .card {
+      width: min(720px, 92vw);
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 38px 40px;
+    }
+
+    h1 {
+      font-size: 36px;
+      line-height: 1.1;
+      margin: 0 0 18px 0;
+      font-weight: 700;
+    }
+
+    .search {
+      position: relative;
+      margin-bottom: 26px;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 14px 46px 14px 18px;
+      border: 2px solid #bdbdbd;
+      border-radius: 14px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search svg {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      opacity: 0.5;
+    }
+
+    .entry {
+      padding: 16px 0;
+      border-top: 1px solid #ececec;
+    }
+
+    .entry:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .word-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .speaker {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #c9c9c9;
+      display: grid;
+      place-items: center;
+      color: #9a9a9a;
+      font-size: 18px;
+    }
+
+    .word {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0;
+    }
+
+    .definition {
+      font-family: "Playfair Display", serif;
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .empty {
+      text-align: center;
+      color: #999;
+      font-style: italic;
+      padding: 20px 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Psikogenetik<br>Dictionary</h1>
+
+    <div class="search">
+      <input id="search" placeholder="Search for a word" />
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="20" y1="20" x2="16.5" y2="16.5"></line>
+      </svg>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const entries = [
+      { word: "Psikogenetik", definition: "Davranış, duygu ve kişilik özelliklerinin genetik temellerini inceleyen bilim dalıdır." },
+      { word: "Epigenetik", definition: "Çevresel etkilerin DNA dizisini değiştirmeden gen ifadesini düzenlemesidir." },
+      { word: "Gen ifadesi", definition: "Bir genin aktifleşerek protein üretimine katkı sağlaması sürecidir." },
+      { word: "Polimorfizm", definition: "Toplumda yaygın görülen genetik varyasyon farklılığıdır." },
+      { word: "Davranış genetiği", definition: "Psikolojik özelliklerin kalıtsal bileşenlerini araştıran alandır." },
+      { word: "Nöroplastisite", definition: "Beynin deneyimlere bağlı olarak yapısal ve işlevsel değişebilme kapasitesidir." },
+      { word: "Travma izi", definition: "Şiddetli stresin biyolojik ve psikolojik düzeyde bıraktığı kalıcı etkidir." },
+      { word: "Transgenerasyonel aktarım", definition: "Travma veya davranış kalıplarının nesiller arası geçişidir." },
+      { word: "Metilasyon", definition: "DNA üzerinde gen susturulmasına yol açabilen kimyasal işaretlemedir." },
+      { word: "Stres yanıtı", definition: "Organizmanın tehdit karşısında verdiği fizyolojik ve psikolojik tepkidir." },
+      { word: "Kortizol", definition: "Stresle ilişkili temel hormonlardan biridir." },
+      { word: "Serotonin", definition: "Duygudurum düzenlenmesinde rol oynayan nörotransmitterdir." },
+      { word: "Dopamin", definition: "Ödül, motivasyon ve öğrenmeyle ilişkili nörotransmitterdir." },
+      { word: "Bağlanma stili", definition: "Erken ilişkilerin yetişkin duygusal örüntülerini şekillendirmesidir." },
+      { word: "Mizaç", definition: "Doğuştan gelen temel duygusal tepki eğilimidir." },
+      { word: "Fenotip", definition: "Genetik ve çevresel etkileşimin gözlenen sonucudur." },
+      { word: "Genotip", definition: "Bireyin sahip olduğu genetik yapıdır." },
+      { word: "HPA ekseni", definition: "Stres yanıtını yöneten hipotalamus-hipofiz-adrenal sistemidir." },
+      { word: "Bilişsel şema", definition: "Dünyayı algılama ve yorumlama kalıplarıdır." },
+      { word: "Duygusal regülasyon", definition: "Duyguları yönetme ve dengeleme becerisidir." },
+      { word: "Resilience", definition: "Zorluklara rağmen psikolojik olarak toparlanabilme kapasitesidir." },
+      { word: "Nöroinflamasyon", definition: "Sinir sisteminde iltihabi süreçlerin artmasıdır." },
+      { word: "Mitokondriyal fonksiyon", definition: "Hücresel enerji üretimini belirleyen biyolojik süreçtir." },
+      { word: "Telomer", definition: "Kromozom uçlarını koruyan ve biyolojik yaşlanmayla ilişkili yapıdır." },
+      { word: "Oksidatif stres", definition: "Serbest radikallerin hücresel hasar oluşturmasıdır." },
+      { word: "Nörotransmisyon", definition: "Sinir hücreleri arası kimyasal iletişimdir." },
+      { word: "Duygusal hafıza", definition: "Güçlü duygularla kodlanan anıların kalıcılığıdır." },
+      { word: "Öğrenilmiş çaresizlik", definition: "Kontrol algısının kaybına bağlı pasiflik durumudur." },
+      { word: "Plasebo etkisi", definition: "İnancın biyolojik iyileşme oluşturabilmesidir." },
+      { word: "Nocebo etkisi", definition: "Olumsuz beklentinin zararlı fizyolojik sonuç doğurmasıdır." },
+      { word: "Psikonöroimmünoloji", definition: "Zihin, sinir sistemi ve bağışıklık etkileşimini inceler." },
+      { word: "Homeostaz", definition: "Organizmanın iç dengeyi koruma eğilimidir." },
+      { word: "Allostaz", definition: "Stres altında yeni denge kurma sürecidir." },
+      { word: "Allostatik yük", definition: "Kronik stresin biriken biyolojik maliyetidir." },
+      { word: "Gen-çevre etkileşimi", definition: "Genetik yapı ile yaşam deneyimlerinin birlikte etkisidir." },
+      { word: "Duygusal yeme", definition: "Psikolojik durumlara bağlı beslenme davranışıdır." },
+      { word: "Bağımlılık yatkınlığı", definition: "Ödül sistemiyle ilişkili genetik hassasiyettir." },
+      { word: "Uyku mimarisi", definition: "Uyku evrelerinin düzenlenme biçimidir." },
+      { word: "Sirkadiyen ritim", definition: "24 saatlik biyolojik zamanlama sistemidir." },
+      { word: "Melatonin", definition: "Uyku-uyanıklık döngüsünü düzenleyen hormondur." },
+      { word: "BDNF", definition: "Sinir hücrelerinin büyümesini destekleyen nörotrofik faktördür." },
+      { word: "Sinaptogenez", definition: "Yeni sinaptik bağlantıların oluşmasıdır." },
+      { word: "Apoptoz", definition: "Programlanmış hücre ölümüdür." },
+      { word: "Nörogenez", definition: "Yeni nöron oluşum sürecidir." },
+      { word: "Kognitif esneklik", definition: "Değişen durumlara zihinsel uyum sağlayabilme yetisidir." },
+      { word: "Mindfulness", definition: "Şimdiki ana bilinçli ve yargısız dikkat verme pratiğidir." },
+      { word: "Somatik hafıza", definition: "Bedensel duyumlarda depolanan travmatik izlerdir." },
+      { word: "Dissosiyasyon", definition: "Bilinç, kimlik veya algı bütünlüğünün geçici ayrılmasıdır." },
+      { word: "Empati", definition: "Başkasının duygusunu anlayabilme kapasitesidir." },
+      { word: "Ayna nöronlar", definition: "Başkalarının davranışlarını gözlemlerken aktive olan nöronlardır." },
+      { word: "Ödül devresi", definition: "Haz ve motivasyonu yöneten beyin ağıdır." },
+      { word: "Prefrontal korteks", definition: "Karar verme ve özdenetim merkezidir." },
+      { word: "Amigdala", definition: "Tehdit ve korku işleme merkezidir." },
+      { word: "Hipokampus", definition: "Öğrenme ve hafıza oluşumunda kritik yapıdır." },
+      { word: "Vagus siniri", definition: "Parasempatik sinir sisteminin ana düzenleyicisidir." },
+      { word: "HRV", definition: "Kalp atım değişkenliği ile stres dayanıklılığını yansıtır." },
+      { word: "Inflamasyon", definition: "Bağışıklık sisteminin savunma yanıtıdır." },
+      { word: "Mikrobiyota", definition: "Bağırsakta yaşayan mikroorganizma topluluğudur." },
+      { word: "Bağırsak-beyin ekseni", definition: "Sindirim sistemi ile sinir sistemi arasındaki iletişimdir." },
+      { word: "Psikobiyotik", definition: "Ruh sağlığını etkileyebilen probiyotik türüdür." },
+      { word: "Metabolik esneklik", definition: "Enerji kaynakları arasında geçiş yapabilme yeteneğidir." },
+      { word: "İnsülin direnci", definition: "Hücrelerin insüline yanıtının azalmasıdır." },
+      { word: "NAD⁺ metabolizması", definition: "Hücresel enerji ve yaşlanma süreçlerini etkiler." },
+      { word: "Sirtuinler", definition: "Uzun ömürle ilişkili enzim ailesidir." },
+      { word: "Otofaji", definition: "Hücrenin kendini temizleme mekanizmasıdır." },
+      { word: "Longevity", definition: "Sağlıklı ve uzun yaşam bilimi yaklaşımıdır." },
+      { word: "Biyolojik yaş", definition: "Hücresel işlevlere dayalı yaş ölçümüdür." },
+      { word: "Psikolojik yaş", definition: "Bireyin hissettiği öznel yaş deneyimidir." },
+      { word: "Yaşam tarzı tıbbı", definition: "Hastalıkları davranış değişimiyle önlemeyi hedefler." },
+      { word: "Fonksiyonel tıp", definition: "Kök neden odaklı bütüncül sağlık yaklaşımıdır." },
+      { word: "Farmakogenetik", definition: "İlaç yanıtlarının genetik temellerini inceler." },
+      { word: "Nutrigenetik", definition: "Beslenme ile genetik etkileşimi araştırır." },
+      { word: "Epigenetik saat", definition: "Yaşlanmayı metilasyon üzerinden ölçen biyobelirteçtir." },
+      { word: "Psikoeğitim", definition: "Bireyin psikolojik süreçler hakkında bilgilendirilmesidir." },
+      { word: "Şema terapi", definition: "Erken dönem kalıplarını dönüştürmeyi hedefler." },
+      { word: "EMDR", definition: "Travmatik anıların işlenmesini sağlayan terapi yöntemidir." },
+      { word: "Somatik terapi", definition: "Bedensel duyumlar üzerinden iyileşmeyi amaçlar." },
+      { word: "Bilişsel yeniden yapılandırma", definition: "İşlevsiz düşüncelerin değiştirilmesidir." },
+      { word: "Duygusal farkındalık", definition: "Hisleri tanıma ve adlandırma becerisidir." },
+      { word: "Öz-şefkat", definition: "Kendine anlayış ve kabul gösterebilme tutumudur." },
+      { word: "Motivasyon", definition: "Davranışı başlatan içsel güçtür." },
+      { word: "Amaç duygusu", definition: "Yaşam yönünü belirleyen anlam hissidir." },
+      { word: "Anlam arayışı", definition: "Varoluşsal tatmin ihtiyacıdır." },
+      { word: "Varoluşsal kaygı", definition: "Ölüm ve belirsizlikle ilişkili temel endişedir." },
+      { word: "Kimlik oluşumu", definition: "Benlik algısının gelişim sürecidir." },
+      { word: "Öz-düzenleme", definition: "Davranışları bilinçli kontrol edebilme yetisidir." },
+      { word: "Psikolojik dayanıklılık", definition: "Zorluklara karşı sürdürülebilir güçtür." },
+      { word: "Sosyal beyin", definition: "İlişkileri yöneten sinir ağlarının bütünüdür." },
+      { word: "Toplumsal bağ", definition: "Aidiyet hissi oluşturan ilişkisel yapıtır." },
+      { word: "Yalnızlık", definition: "Sosyal bağ eksikliğinin öznel deneyimidir." },
+      { word: "Dijital biliş", definition: "Teknoloji kullanımının zihinsel süreçlere etkisidir." },
+      { word: "Bilişsel yük", definition: "Zihinsel işlem kapasitesinin doluluk düzeyidir." },
+      { word: "Dikkat ekonomisi", definition: "Zihinsel odağın rekabet konusu olmasıdır." },
+      { word: "Nöroteknoloji", definition: "Beyin işlevlerini ölçen veya değiştiren teknolojilerdir." },
+      { word: "Yapay zekâ-zihin etkileşimi", definition: "AI araçlarının düşünme süreçlerini etkilemesidir." },
+      { word: "Bilinç", definition: "Öznel farkındalık deneyimidir." },
+      { word: "Benlik", definition: "Kişinin kendine dair bütüncül algısıdır." },
+      { word: "İçsel anlatı", definition: "Yaşamın zihinsel hikâyeleştirilmesidir." },
+      { word: "Dönüşüm", definition: "Psikolojik ve biyolojik değişim sürecidir." },
+      { word: "Psikogenetik bütünlük", definition: "Genetik miras ile bilinçli farkındalığın uyumudur." }
+    ];
+
+    const result = document.getElementById("result");
+    const search = document.getElementById("search");
+
+    function render(list) {
+      if (!list.length) {
+        result.innerHTML = '<div class="empty">No results</div>';
+        return;
+      }
+
+      result.innerHTML = list.map(item => `
+        <div class="entry">
+          <div class="word-head">
+            <div class="speaker">🔊</div>
+            <h2 class="word">${item.word}</h2>
+          </div>
+          <p class="definition">${item.definition}</p>
+        </div>
+      `).join("");
+    }
+
+    function filter(q) {
+      const term = q.trim().toLowerCase();
+      if (!term) {
+        render(entries);
+        return;
+      }
+      const filtered = entries.filter(e =>
+        e.word.toLowerCase().includes(term) ||
+        e.definition.toLowerCase().includes(term)
+      );
+      render(filtered);
+    }
+
+    render(entries);
+    search.addEventListener("input", e => filter(e.target.value));
+  </script>
+</body>
+</html>
