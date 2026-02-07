@@ -1,0 +1,43 @@
+name: Spotted
+options:
+  bundleIdPrefix: com.kaanyl82
+  deploymentTarget:
+    iOS: 16.0
+settings:
+  base:
+    PRODUCT_BUNDLE_IDENTIFIER: com.kaanyl82.spotted
+    SWIFT_VERSION: 5.0
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 1.0
+    IPHONEOS_DEPLOYMENT_TARGET: 16.0
+    TARGETED_DEVICE_FAMILY: 1
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_CFBundleDisplayName: Spotted
+    INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Yakındaki gönderileri göstermek için konum izni gerekir."
+    INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Fotoğraf paylaşımı için fotoğraf erişimi gerekir."
+    INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "Paylaştığınız fotoğrafları kaydetmek için izin gerekir."
+    INFOPLIST_KEY_NSCameraUsageDescription: "Fotoğraf çekip paylaşmak için kamera izni gerekir."
+    INFOPLIST_KEY_API_BASE_URL: "https://api.example.com"
+    INFOPLIST_KEY_API_BASE_URL_STAGING: "https://api-staging.example.com"
+
+configurations:
+  Debug:
+    settings:
+      base:
+        INFOPLIST_KEY_API_BASE_URL: "https://api-staging.example.com"
+  Release:
+    settings:
+      base:
+        INFOPLIST_KEY_API_BASE_URL: "https://api.example.com"
+
+targets:
+  Spotted:
+    type: application
+    platform: iOS
+    sources:
+      - Spotted
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    scheme:
+      testTargets: []

@@ -3,279 +3,891 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Psikogenetik Dictionary</title>
+  <title>Psikogenetik Psikoterapi | One Page</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f4f5f7;
-      --card: #ffffff;
-      --ink: #111;
-      --muted: #777;
-      --accent: #f28b38;
-      --border: #1d1d1d;
-      --shadow: 0 18px 40px rgba(0,0,0,0.08);
-      --radius: 22px;
+      --ink: #0a0c11;
+      --bg: #f6f2ee;
+      --sun: #ffb25c;
+      --coral: #ff7f66;
+      --sage: #c2d6c5;
+      --sea: #3b7c8a;
+      --paper: #fffaf4;
+      --shadow: 0 20px 70px rgba(14, 16, 20, 0.16);
+      --radius: 28px;
+      --grid: rgba(10, 12, 17, 0.08);
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: "Montserrat", sans-serif;
-      background: var(--bg);
+      font-family: "Space Grotesk", sans-serif;
+      background: radial-gradient(1200px 600px at 12% -10%, #ffe2c7, transparent 60%),
+        radial-gradient(1000px 600px at 85% 0%, #dff1f1, transparent 55%),
+        var(--bg);
       color: var(--ink);
-      display: grid;
-      place-items: center;
-      min-height: 100vh;
-      padding: 28px;
+      overflow-x: hidden;
     }
 
-    .card {
-      width: min(720px, 92vw);
-      background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 38px 40px;
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      width: min(1200px, 92vw);
+      margin: 0 auto;
+      padding: 32px 0 90px;
+      display: flex;
+      flex-direction: column;
+      gap: 140px;
     }
 
-    h1 {
-      font-size: 36px;
-      line-height: 1.1;
-      margin: 0 0 18px 0;
-      font-weight: 700;
-    }
-
-    .search {
-      position: relative;
-      margin-bottom: 26px;
-    }
-
-    .search input {
-      width: 100%;
-      padding: 14px 46px 14px 18px;
-      border: 2px solid #bdbdbd;
-      border-radius: 14px;
-      font-size: 16px;
-      outline: none;
-    }
-
-    .search svg {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 20px;
-      height: 20px;
-      opacity: 0.5;
-    }
-
-    .entry {
-      padding: 16px 0;
-      border-top: 1px solid #ececec;
-    }
-
-    .entry:first-child {
-      border-top: none;
-      padding-top: 0;
-    }
-
-    .word-head {
+    .nav {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 8px;
+      justify-content: space-between;
+      padding: 14px 0 0;
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(12px);
+      z-index: 10;
     }
 
-    .speaker {
-      width: 40px;
-      height: 40px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .brand span {
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
-      border: 2px solid #c9c9c9;
+      background: linear-gradient(130deg, var(--coral), var(--sun));
+      box-shadow: 0 0 0 4px rgba(255, 127, 102, 0.2);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .hero {
       display: grid;
-      place-items: center;
-      color: #9a9a9a;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      align-items: center;
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: 48px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: -40% -10% auto auto;
+      width: 60%;
+      height: 60%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 124, 138, 0.16), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      font-family: "Fraunces", serif;
+      font-size: clamp(2.4rem, 4vw, 4rem);
+      margin: 0 0 16px 0;
+      line-height: 1.02;
+    }
+
+    .hero p {
+      margin: 0 0 24px 0;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #2c2f35;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--ink);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+    }
+
+    .btn.primary {
+      background: var(--ink);
+      color: white;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 16px;
+      background: #fef5ec;
+      border: 1px solid #f1dfd0;
+    }
+
+    .metric span {
+      font-size: 22px;
+      font-weight: 700;
+      display: block;
+    }
+
+    .metric small {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 10px;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      align-items: center;
+    }
+
+    .section h2 {
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      margin: 0 0 16px 0;
+    }
+
+    .section p {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      margin: 0 0 18px 0;
+      color: #2c2f35;
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+    }
+
+    .pill {
+      background: var(--paper);
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid var(--grid);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .pill h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+
+    .process {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .step {
+      padding: 20px;
+      border-radius: 20px;
+      background: #0a0c11;
+      color: #f7f4f0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step::after {
+      content: "";
+      position: absolute;
+      inset: auto auto -40% -20%;
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(circle, rgba(255, 178, 92, 0.35), transparent 65%);
+      pointer-events: none;
+    }
+
+    .step span {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .step h4 { margin: 12px 0 10px; }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid var(--grid);
+    }
+
+    .timeline-item strong {
       font-size: 18px;
     }
 
-    .word {
-      font-size: 30px;
-      font-weight: 700;
-      color: var(--accent);
-      margin: 0;
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
     }
 
-    .definition {
-      font-family: "Playfair Display", serif;
-      font-size: 16px;
-      line-height: 1.5;
-      margin: 0;
+    .card {
+      background: var(--paper);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid var(--grid);
     }
 
-    .empty {
+    .card h4 { margin: 0 0 10px; }
+
+    .quote {
+      background: linear-gradient(140deg, #102a2f, #1b2028);
+      color: #fdfbf7;
+      padding: 26px;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .quote p { margin: 0; font-size: 1.05rem; line-height: 1.7; }
+
+    .faq {
+      display: grid;
+      gap: 12px;
+    }
+
+    details {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid var(--grid);
+    }
+
+    summary {
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      background: var(--paper);
+      padding: 30px;
+      border-radius: var(--radius);
+      border: 1px solid var(--grid);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    input, textarea {
+      border: 1px solid #d7d7d7;
+      border-radius: 14px;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    textarea { min-height: 110px; }
+
+    .footer {
       text-align: center;
-      color: #999;
-      font-style: italic;
-      padding: 20px 0 10px;
+      font-size: 13px;
+      color: #444;
+    }
+
+    .viz {
+      width: 100%;
+      height: 360px;
+      background: #0a0c11;
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #0f141d;
+      box-shadow: 0 20px 50px rgba(5, 6, 10, 0.4);
+    }
+
+    .viz.viz-sage { background: linear-gradient(140deg, #0c1518, #132426); }
+    .viz.viz-coral { background: linear-gradient(140deg, #1a0f12, #2b161a); }
+    .viz.viz-sun { background: linear-gradient(140deg, #1b160f, #2a2013); }
+    .viz.viz-ink { background: linear-gradient(140deg, #0a0c11, #141824); }
+
+    .viz canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    .viz-label {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #d9d9d9;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #fff;
+    }
+
+    .insight-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+      align-items: center;
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 28px;
+      border: 1px solid var(--grid);
+    }
+
+    .insight-strip h3 {
+      font-family: "Fraunces", serif;
+      margin: 0 0 10px 0;
+    }
+
+    .mini-viz {
+      height: 220px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 760px) {
+      .nav { position: static; flex-direction: column; gap: 12px; }
+      .nav-links { flex-wrap: wrap; justify-content: center; }
+      .hero { padding: 32px; }
+      .hero-metrics { grid-template-columns: 1fr; }
+      .page { gap: 90px; }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Psikogenetik<br>Dictionary</h1>
+  <div class="page">
+    <nav class="nav">
+      <div class="brand"><span></span> Psikogenetik Psikoterapi</div>
+      <div class="nav-links">
+        <a href="#model">Model</a>
+        <a href="#surec">Süreç</a>
+        <a href="#katmanlar">Mikro Akış</a>
+        <a href="#etki">Etki Alanı</a>
+        <a href="#ekip">Ekip</a>
+        <a href="#iletisim">İletişim</a>
+      </div>
+    </nav>
 
-    <div class="search">
-      <input id="search" placeholder="Search for a word" />
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="7"></circle>
-        <line x1="20" y1="20" x2="16.5" y2="16.5"></line>
-      </svg>
-    </div>
+    <section class="hero" id="hero">
+      <div>
+        <h1>Genetik mirasın, psikolojik hikâyeye dönüşen haritası.</h1>
+        <p>Psikogenetik Psikoterapi modeli, bireyin duygusal örüntülerini genetik yatkınlık, yaşam deneyimleri ve nöroplastisite ile birlikte ele alır. Bilinçli farkındalıkla kök nedenleri keşfetmeyi, yeni bir içsel anlatı inşa etmeyi ve sürdürülebilir değişim yaratmayı hedefler.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#iletisim">Ön Görüşme Planla</a>
+          <a class="btn" href="#model">Modeli Keşfet</a>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric"><span>3 Katman</span><small>Genetik · Deneyim · Dönüşüm</small></div>
+          <div class="metric"><span>8 Aşama</span><small>Öykü Haritası</small></div>
+          <div class="metric"><span>360°</span><small>Zihin + Beden + Bağ</small></div>
+        </div>
+      </div>
+      <div class="viz viz-sun" data-scene="helix">
+        <div class="viz-label">Psikogenetik Akış</div>
+        <canvas></canvas>
+      </div>
+    </section>
 
-    <div id="result"></div>
+    <section class="section" id="model">
+      <div>
+        <h2>Modelin özü: katmanlı bilinç çalışması</h2>
+        <p>Model; genetik yatkınlıkların belirlediği hassasiyetleri, çevresel tetikleyicileri ve kişinin anlam üretme biçimini aynı anda takip eder. Seanslar, içsel ritmi yeniden düzenlemek için biyolojik sinyallerle psikolojik anlatıyı eşler.</p>
+        <div class="pillars">
+          <div class="pill">
+            <h3>Genetik Duyarlılık</h3>
+            <p>Stres yanıtı, bağlanma ve duygu regülasyonunu şekillendiren kalıtsal etkiler görünür olur.</p>
+          </div>
+          <div class="pill">
+            <h3>Epigenetik İzler</h3>
+            <p>Yaşam deneyimlerinin sinir ağı üzerinde bıraktığı izler yeniden yazılır.</p>
+          </div>
+          <div class="pill">
+            <h3>Bilinçli Dönüşüm</h3>
+            <p>Yeni davranışlar, bedensel güvenlik hissiyle sürdürülebilir hâle gelir.</p>
+          </div>
+        </div>
+        <div class="badge-row">
+          <div class="badge">Nöroplastisite</div>
+          <div class="badge">Şema Çözümleme</div>
+          <div class="badge">Somatik Farkındalık</div>
+          <div class="badge">Transgenerasyonel Bakış</div>
+        </div>
+      </div>
+      <div class="viz viz-coral" data-scene="network">
+        <div class="viz-label">Sinir Ağı Haritası</div>
+        <canvas></canvas>
+      </div>
+    </section>
+
+    <section class="section" id="surec">
+      <div class="viz viz-sage" data-scene="layers">
+        <div class="viz-label">Katman Senkronu</div>
+        <canvas></canvas>
+      </div>
+      <div>
+        <h2>Seans süreç haritası</h2>
+        <p>Her danışan için sekiz aşamalı, kişiselleştirilmiş bir akış kurulur. Amaç; zihinsel anlatıyı, bedensel sinyallerle ve ilişkisel örüntülerle hizalamaktır.</p>
+        <div class="process">
+          <div class="step"><span>01</span><h4>Genetik Duyarlılık Profili</h4>Davranış genetiği ve aile öyküsüyle başlangıç haritası çıkarılır.</div>
+          <div class="step"><span>02</span><h4>Yaşam Çizgisi Analizi</h4>Önemli dönemeçler ve tetikleyiciler görünür olur.</div>
+          <div class="step"><span>03</span><h4>Epigenetik İz Çözümleme</h4>Bedensel tepkilerle duygusal kayıtlar eşlenir.</div>
+          <div class="step"><span>04</span><h4>Somatik Güvenlik</h4>Nefes, vagus regülasyonu ve güvenli temas çalışılır.</div>
+          <div class="step"><span>05</span><h4>Şema Dönüşümü</h4>İçsel anlatı yeniden yazılır.</div>
+          <div class="step"><span>06</span><h4>Davranış Prototipi</h4>Yeni tepkiler güvenli ortamda denenir.</div>
+          <div class="step"><span>07</span><h4>Bağ Yeniden Tasarımı</h4>İlişkisel sınırlar ve bağlanma düzenlenir.</div>
+          <div class="step"><span>08</span><h4>Sürdürülebilir Ritim</h4>Uyku, beslenme ve rutinlerle denge kalıcılaştırılır.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="insight-strip" id="katmanlar">
+      <div>
+        <h3>Modelin mikro hareketleri</h3>
+        <p>Her seans, küçük değişimlerin büyük dönüşümlere dönüştüğü ritmik bir akış kurar. Aşağıdaki sahneler, bu mikro hareketleri sembolize eder.</p>
+      </div>
+      <div class="viz mini-viz viz-ink" data-scene="spiral">
+        <div class="viz-label">İçsel Spiral</div>
+        <canvas></canvas>
+      </div>
+      <div class="viz mini-viz viz-coral" data-scene="fragments">
+        <div class="viz-label">Anı Fragmanları</div>
+        <canvas></canvas>
+      </div>
+    </section>
+
+    <section class="section" id="etki">
+      <div>
+        <h2>Etki alanları ve ölçülebilir kazanımlar</h2>
+        <p>Model; duygusal regülasyon, travma sonrası iyileşme, stres yönetimi ve ilişkisel güvenlik gibi alanlarda bütüncül bir çerçeve sunar. Ölçümleme, öz değerlendirme ve beden farkındalığı üzerinden ilerler.</p>
+        <div class="cards">
+          <div class="card"><h4>Duygusal Regülasyon</h4>Kaygı döngülerini azaltan yeni sinir yolları inşa edilir.</div>
+          <div class="card"><h4>Travma Sonrası Güvenlik</h4>Bedensel alarm sistemleri yatıştırılır.</div>
+          <div class="card"><h4>İlişkisel Dayanıklılık</h4>Sınır koyma ve yakınlık dengesi güçlenir.</div>
+          <div class="card"><h4>Anlam ve Amaç</h4>İçsel hikâye yeniden yapılandırılır.</div>
+        </div>
+        <div class="quote" style="margin-top: 18px;">
+          <p>“Psikogenetik yaklaşım, kişinin geçmişini yalnızca hatırlamak yerine, onu biyolojik ve psikolojik bir haritaya dönüştürür.”</p>
+        </div>
+      </div>
+      <div class="viz viz-sun" data-scene="pulse">
+        <div class="viz-label">Regülasyon Nabzı</div>
+        <canvas></canvas>
+      </div>
+    </section>
+
+    <section class="section" id="ekip">
+      <div class="viz viz-sage" data-scene="core">
+        <div class="viz-label">Merkez Denge</div>
+        <canvas></canvas>
+      </div>
+      <div>
+        <h2>Çok disiplinli ekip yapısı</h2>
+        <p>Model, klinik psikoloji, davranış genetiği ve somatik terapi uzmanlarının ortak çalışma prensipleriyle geliştirilmiştir. Her seans; etik ilkeler, güvenli alan ve sürekli süpervizyonla desteklenir.</p>
+        <div class="timeline">
+          <div class="timeline-item"><strong>Kurucu Klinik</strong><div>Psikoterapi süpervizyonu ve klinik yapılandırma.</div></div>
+          <div class="timeline-item"><strong>Genetik Danışman</strong><div>Yatkınlık profillerinin bilimsel çerçevesi.</div></div>
+          <div class="timeline-item"><strong>Somatik Uzman</strong><div>Bedensel güvenlik ve vagus regülasyonu protokolleri.</div></div>
+        </div>
+        <p style="margin-top: 16px; font-size: 0.95rem;">Not: Bu model, tıbbi tanı veya tedavinin yerine geçmez. Bilgilendirme amaçlıdır.</p>
+      </div>
+    </section>
+
+    <section class="section" id="sorular">
+      <div>
+        <h2>Sık sorulan sorular</h2>
+        <div class="faq">
+          <details>
+            <summary>Bu model genetik test gerektiriyor mu?</summary>
+            <p>Hayır. Genetik test zorunlu değildir; aile öyküsü ve davranış kalıpları üzerinden çalışılır.</p>
+          </details>
+          <details>
+            <summary>Seans süresi ve sıklığı nasıl belirlenir?</summary>
+            <p>Danışanın hedeflerine göre 60-90 dakika aralığında ve haftalık/iki haftalık planlanır.</p>
+          </details>
+          <details>
+            <summary>Hangi konularda daha etkili?</summary>
+            <p>Kronik stres, kaygı, ilişki döngüleri, travma sonrası iyileşme ve kimlik çalışmaları.</p>
+          </details>
+          <details>
+            <summary>Online seans mümkün mü?</summary>
+            <p>Evet. Bedensel regülasyon ve güvenlik protokolleri dijital ortamda da uygulanabilir.</p>
+          </details>
+        </div>
+      </div>
+      <div class="viz viz-ink" data-scene="field">
+        <div class="viz-label">Soru Alanı</div>
+        <canvas></canvas>
+      </div>
+    </section>
+
+    <section class="contact" id="iletisim">
+      <div>
+        <h2>İlk görüşme için bağlantı kurun</h2>
+        <p>Size özel bir seans planı oluşturmak için kısa bir ön görüşme yapalım.</p>
+        <div class="badge-row">
+          <div class="badge">online</div>
+          <div class="badge">yüz yüze</div>
+          <div class="badge">gizlilik sözleşmesi</div>
+        </div>
+      </div>
+      <form>
+        <div class="field">
+          <label>Ad Soyad</label>
+          <input placeholder="Adınızı yazın" />
+        </div>
+        <div class="field">
+          <label>E-posta</label>
+          <input placeholder="ornek@mail.com" />
+        </div>
+        <div class="field">
+          <label>Mesaj</label>
+          <textarea placeholder="Kısa notunuzu yazın"></textarea>
+        </div>
+        <button class="btn primary" type="button">Ön Görüşme Talep Et</button>
+      </form>
+    </section>
+
+    <div class="footer">© 2026 Psikogenetik Psikoterapi Modeli. Tüm hakları saklıdır.</div>
   </div>
 
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
   <script>
-    const entries = [
-      { word: "Psikogenetik", definition: "Davranış, duygu ve kişilik özelliklerinin genetik temellerini inceleyen bilim dalıdır." },
-      { word: "Epigenetik", definition: "Çevresel etkilerin DNA dizisini değiştirmeden gen ifadesini düzenlemesidir." },
-      { word: "Gen ifadesi", definition: "Bir genin aktifleşerek protein üretimine katkı sağlaması sürecidir." },
-      { word: "Polimorfizm", definition: "Toplumda yaygın görülen genetik varyasyon farklılığıdır." },
-      { word: "Davranış genetiği", definition: "Psikolojik özelliklerin kalıtsal bileşenlerini araştıran alandır." },
-      { word: "Nöroplastisite", definition: "Beynin deneyimlere bağlı olarak yapısal ve işlevsel değişebilme kapasitesidir." },
-      { word: "Travma izi", definition: "Şiddetli stresin biyolojik ve psikolojik düzeyde bıraktığı kalıcı etkidir." },
-      { word: "Transgenerasyonel aktarım", definition: "Travma veya davranış kalıplarının nesiller arası geçişidir." },
-      { word: "Metilasyon", definition: "DNA üzerinde gen susturulmasına yol açabilen kimyasal işaretlemedir." },
-      { word: "Stres yanıtı", definition: "Organizmanın tehdit karşısında verdiği fizyolojik ve psikolojik tepkidir." },
-      { word: "Kortizol", definition: "Stresle ilişkili temel hormonlardan biridir." },
-      { word: "Serotonin", definition: "Duygudurum düzenlenmesinde rol oynayan nörotransmitterdir." },
-      { word: "Dopamin", definition: "Ödül, motivasyon ve öğrenmeyle ilişkili nörotransmitterdir." },
-      { word: "Bağlanma stili", definition: "Erken ilişkilerin yetişkin duygusal örüntülerini şekillendirmesidir." },
-      { word: "Mizaç", definition: "Doğuştan gelen temel duygusal tepki eğilimidir." },
-      { word: "Fenotip", definition: "Genetik ve çevresel etkileşimin gözlenen sonucudur." },
-      { word: "Genotip", definition: "Bireyin sahip olduğu genetik yapıdır." },
-      { word: "HPA ekseni", definition: "Stres yanıtını yöneten hipotalamus-hipofiz-adrenal sistemidir." },
-      { word: "Bilişsel şema", definition: "Dünyayı algılama ve yorumlama kalıplarıdır." },
-      { word: "Duygusal regülasyon", definition: "Duyguları yönetme ve dengeleme becerisidir." },
-      { word: "Resilience", definition: "Zorluklara rağmen psikolojik olarak toparlanabilme kapasitesidir." },
-      { word: "Nöroinflamasyon", definition: "Sinir sisteminde iltihabi süreçlerin artmasıdır." },
-      { word: "Mitokondriyal fonksiyon", definition: "Hücresel enerji üretimini belirleyen biyolojik süreçtir." },
-      { word: "Telomer", definition: "Kromozom uçlarını koruyan ve biyolojik yaşlanmayla ilişkili yapıdır." },
-      { word: "Oksidatif stres", definition: "Serbest radikallerin hücresel hasar oluşturmasıdır." },
-      { word: "Nörotransmisyon", definition: "Sinir hücreleri arası kimyasal iletişimdir." },
-      { word: "Duygusal hafıza", definition: "Güçlü duygularla kodlanan anıların kalıcılığıdır." },
-      { word: "Öğrenilmiş çaresizlik", definition: "Kontrol algısının kaybına bağlı pasiflik durumudur." },
-      { word: "Plasebo etkisi", definition: "İnancın biyolojik iyileşme oluşturabilmesidir." },
-      { word: "Nocebo etkisi", definition: "Olumsuz beklentinin zararlı fizyolojik sonuç doğurmasıdır." },
-      { word: "Psikonöroimmünoloji", definition: "Zihin, sinir sistemi ve bağışıklık etkileşimini inceler." },
-      { word: "Homeostaz", definition: "Organizmanın iç dengeyi koruma eğilimidir." },
-      { word: "Allostaz", definition: "Stres altında yeni denge kurma sürecidir." },
-      { word: "Allostatik yük", definition: "Kronik stresin biriken biyolojik maliyetidir." },
-      { word: "Gen-çevre etkileşimi", definition: "Genetik yapı ile yaşam deneyimlerinin birlikte etkisidir." },
-      { word: "Duygusal yeme", definition: "Psikolojik durumlara bağlı beslenme davranışıdır." },
-      { word: "Bağımlılık yatkınlığı", definition: "Ödül sistemiyle ilişkili genetik hassasiyettir." },
-      { word: "Uyku mimarisi", definition: "Uyku evrelerinin düzenlenme biçimidir." },
-      { word: "Sirkadiyen ritim", definition: "24 saatlik biyolojik zamanlama sistemidir." },
-      { word: "Melatonin", definition: "Uyku-uyanıklık döngüsünü düzenleyen hormondur." },
-      { word: "BDNF", definition: "Sinir hücrelerinin büyümesini destekleyen nörotrofik faktördür." },
-      { word: "Sinaptogenez", definition: "Yeni sinaptik bağlantıların oluşmasıdır." },
-      { word: "Apoptoz", definition: "Programlanmış hücre ölümüdür." },
-      { word: "Nörogenez", definition: "Yeni nöron oluşum sürecidir." },
-      { word: "Kognitif esneklik", definition: "Değişen durumlara zihinsel uyum sağlayabilme yetisidir." },
-      { word: "Mindfulness", definition: "Şimdiki ana bilinçli ve yargısız dikkat verme pratiğidir." },
-      { word: "Somatik hafıza", definition: "Bedensel duyumlarda depolanan travmatik izlerdir." },
-      { word: "Dissosiyasyon", definition: "Bilinç, kimlik veya algı bütünlüğünün geçici ayrılmasıdır." },
-      { word: "Empati", definition: "Başkasının duygusunu anlayabilme kapasitesidir." },
-      { word: "Ayna nöronlar", definition: "Başkalarının davranışlarını gözlemlerken aktive olan nöronlardır." },
-      { word: "Ödül devresi", definition: "Haz ve motivasyonu yöneten beyin ağıdır." },
-      { word: "Prefrontal korteks", definition: "Karar verme ve özdenetim merkezidir." },
-      { word: "Amigdala", definition: "Tehdit ve korku işleme merkezidir." },
-      { word: "Hipokampus", definition: "Öğrenme ve hafıza oluşumunda kritik yapıdır." },
-      { word: "Vagus siniri", definition: "Parasempatik sinir sisteminin ana düzenleyicisidir." },
-      { word: "HRV", definition: "Kalp atım değişkenliği ile stres dayanıklılığını yansıtır." },
-      { word: "Inflamasyon", definition: "Bağışıklık sisteminin savunma yanıtıdır." },
-      { word: "Mikrobiyota", definition: "Bağırsakta yaşayan mikroorganizma topluluğudur." },
-      { word: "Bağırsak-beyin ekseni", definition: "Sindirim sistemi ile sinir sistemi arasındaki iletişimdir." },
-      { word: "Psikobiyotik", definition: "Ruh sağlığını etkileyebilen probiyotik türüdür." },
-      { word: "Metabolik esneklik", definition: "Enerji kaynakları arasında geçiş yapabilme yeteneğidir." },
-      { word: "İnsülin direnci", definition: "Hücrelerin insüline yanıtının azalmasıdır." },
-      { word: "NAD⁺ metabolizması", definition: "Hücresel enerji ve yaşlanma süreçlerini etkiler." },
-      { word: "Sirtuinler", definition: "Uzun ömürle ilişkili enzim ailesidir." },
-      { word: "Otofaji", definition: "Hücrenin kendini temizleme mekanizmasıdır." },
-      { word: "Longevity", definition: "Sağlıklı ve uzun yaşam bilimi yaklaşımıdır." },
-      { word: "Biyolojik yaş", definition: "Hücresel işlevlere dayalı yaş ölçümüdür." },
-      { word: "Psikolojik yaş", definition: "Bireyin hissettiği öznel yaş deneyimidir." },
-      { word: "Yaşam tarzı tıbbı", definition: "Hastalıkları davranış değişimiyle önlemeyi hedefler." },
-      { word: "Fonksiyonel tıp", definition: "Kök neden odaklı bütüncül sağlık yaklaşımıdır." },
-      { word: "Farmakogenetik", definition: "İlaç yanıtlarının genetik temellerini inceler." },
-      { word: "Nutrigenetik", definition: "Beslenme ile genetik etkileşimi araştırır." },
-      { word: "Epigenetik saat", definition: "Yaşlanmayı metilasyon üzerinden ölçen biyobelirteçtir." },
-      { word: "Psikoeğitim", definition: "Bireyin psikolojik süreçler hakkında bilgilendirilmesidir." },
-      { word: "Şema terapi", definition: "Erken dönem kalıplarını dönüştürmeyi hedefler." },
-      { word: "EMDR", definition: "Travmatik anıların işlenmesini sağlayan terapi yöntemidir." },
-      { word: "Somatik terapi", definition: "Bedensel duyumlar üzerinden iyileşmeyi amaçlar." },
-      { word: "Bilişsel yeniden yapılandırma", definition: "İşlevsiz düşüncelerin değiştirilmesidir." },
-      { word: "Duygusal farkındalık", definition: "Hisleri tanıma ve adlandırma becerisidir." },
-      { word: "Öz-şefkat", definition: "Kendine anlayış ve kabul gösterebilme tutumudur." },
-      { word: "Motivasyon", definition: "Davranışı başlatan içsel güçtür." },
-      { word: "Amaç duygusu", definition: "Yaşam yönünü belirleyen anlam hissidir." },
-      { word: "Anlam arayışı", definition: "Varoluşsal tatmin ihtiyacıdır." },
-      { word: "Varoluşsal kaygı", definition: "Ölüm ve belirsizlikle ilişkili temel endişedir." },
-      { word: "Kimlik oluşumu", definition: "Benlik algısının gelişim sürecidir." },
-      { word: "Öz-düzenleme", definition: "Davranışları bilinçli kontrol edebilme yetisidir." },
-      { word: "Psikolojik dayanıklılık", definition: "Zorluklara karşı sürdürülebilir güçtür." },
-      { word: "Sosyal beyin", definition: "İlişkileri yöneten sinir ağlarının bütünüdür." },
-      { word: "Toplumsal bağ", definition: "Aidiyet hissi oluşturan ilişkisel yapıtır." },
-      { word: "Yalnızlık", definition: "Sosyal bağ eksikliğinin öznel deneyimidir." },
-      { word: "Dijital biliş", definition: "Teknoloji kullanımının zihinsel süreçlere etkisidir." },
-      { word: "Bilişsel yük", definition: "Zihinsel işlem kapasitesinin doluluk düzeyidir." },
-      { word: "Dikkat ekonomisi", definition: "Zihinsel odağın rekabet konusu olmasıdır." },
-      { word: "Nöroteknoloji", definition: "Beyin işlevlerini ölçen veya değiştiren teknolojilerdir." },
-      { word: "Yapay zekâ-zihin etkileşimi", definition: "AI araçlarının düşünme süreçlerini etkilemesidir." },
-      { word: "Bilinç", definition: "Öznel farkındalık deneyimidir." },
-      { word: "Benlik", definition: "Kişinin kendine dair bütüncül algısıdır." },
-      { word: "İçsel anlatı", definition: "Yaşamın zihinsel hikâyeleştirilmesidir." },
-      { word: "Dönüşüm", definition: "Psikolojik ve biyolojik değişim sürecidir." },
-      { word: "Psikogenetik bütünlük", definition: "Genetik miras ile bilinçli farkındalığın uyumudur." }
-    ];
+    const scenes = [];
+    const mouse = { x: 0, y: 0 };
 
-    const result = document.getElementById("result");
-    const search = document.getElementById("search");
-
-    function render(list) {
-      if (!list.length) {
-        result.innerHTML = '<div class="empty">No results</div>';
-        return;
-      }
-
-      result.innerHTML = list.map(item => `
-        <div class="entry">
-          <div class="word-head">
-            <div class="speaker">🔊</div>
-            <h2 class="word">${item.word}</h2>
-          </div>
-          <p class="definition">${item.definition}</p>
-        </div>
-      `).join("");
+    function createRenderer(canvas) {
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      return renderer;
     }
 
-    function filter(q) {
-      const term = q.trim().toLowerCase();
-      if (!term) {
-        render(entries);
-        return;
+    function resizeRenderer(renderer, camera) {
+      const canvas = renderer.domElement;
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      if (canvas.width !== width || canvas.height !== height) {
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
       }
-      const filtered = entries.filter(e =>
-        e.word.toLowerCase().includes(term) ||
-        e.definition.toLowerCase().includes(term)
+    }
+
+    function createHelix(scene) {
+      const group = new THREE.Group();
+      const material = new THREE.MeshStandardMaterial({ color: 0xffb25c, roughness: 0.2, metalness: 0.6 });
+      const accent = new THREE.MeshStandardMaterial({ color: 0x3b7c8a, roughness: 0.3, metalness: 0.5 });
+      const sphereGeo = new THREE.SphereGeometry(0.18, 20, 20);
+      for (let i = 0; i < 64; i += 1) {
+        const angle = i * 0.4;
+        const y = (i - 32) * 0.12;
+        const radius = 1.2;
+        const nodeA = new THREE.Mesh(sphereGeo, i % 2 === 0 ? material : accent);
+        nodeA.position.set(Math.cos(angle) * radius, y, Math.sin(angle) * radius);
+        const nodeB = new THREE.Mesh(sphereGeo, i % 2 === 0 ? accent : material);
+        nodeB.position.set(Math.cos(angle + Math.PI) * radius, y, Math.sin(angle + Math.PI) * radius);
+        group.add(nodeA, nodeB);
+      }
+      scene.add(group);
+      return { group, tick: (t) => { group.rotation.y = t * 0.2; } };
+    }
+
+    function createNetwork(scene) {
+      const group = new THREE.Group();
+      const nodes = [];
+      const nodeGeo = new THREE.IcosahedronGeometry(0.16, 0);
+      const nodeMat = new THREE.MeshStandardMaterial({ color: 0xff7f66, metalness: 0.4, roughness: 0.3 });
+      const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35 });
+      for (let i = 0; i < 28; i += 1) {
+        const node = new THREE.Mesh(nodeGeo, nodeMat);
+        node.position.set(
+          (Math.random() - 0.5) * 3.2,
+          (Math.random() - 0.5) * 2.2,
+          (Math.random() - 0.5) * 2.6
+        );
+        nodes.push(node);
+        group.add(node);
+      }
+      for (let i = 0; i < nodes.length; i += 1) {
+        for (let j = i + 1; j < nodes.length; j += 1) {
+          if (Math.random() < 0.12) {
+            const points = [nodes[i].position, nodes[j].position];
+            const geo = new THREE.BufferGeometry().setFromPoints(points);
+            const line = new THREE.Line(geo, lineMat);
+            group.add(line);
+          }
+        }
+      }
+      scene.add(group);
+      return { group, tick: (t) => { group.rotation.x = t * 0.1; group.rotation.y = t * 0.12; } };
+    }
+
+    function createLayers(scene) {
+      const group = new THREE.Group();
+      const colors = [0xffb25c, 0xc2d6c5, 0xff7f66];
+      for (let i = 0; i < 3; i += 1) {
+        const ring = new THREE.Mesh(
+          new THREE.TorusGeometry(1.2 + i * 0.35, 0.08, 16, 120),
+          new THREE.MeshStandardMaterial({ color: colors[i], metalness: 0.5, roughness: 0.3 })
+        );
+        ring.rotation.x = Math.PI / 2 + i * 0.4;
+        group.add(ring);
+      }
+      const core = new THREE.Mesh(
+        new THREE.SphereGeometry(0.35, 32, 32),
+        new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x444444, roughness: 0.2 })
       );
-      render(filtered);
+      group.add(core);
+      scene.add(group);
+      return { group, tick: (t) => { group.rotation.y = t * 0.3; group.rotation.z = t * 0.2; } };
     }
 
-    render(entries);
-    search.addEventListener("input", e => filter(e.target.value));
+    function createPulse(scene) {
+      const group = new THREE.Group();
+      const ringMat = new THREE.MeshStandardMaterial({ color: 0x3b7c8a, roughness: 0.2, metalness: 0.4, transparent: true, opacity: 0.7 });
+      for (let i = 0; i < 4; i += 1) {
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(0.6 + i * 0.35, 0.05, 16, 90), ringMat.clone());
+        ring.rotation.x = Math.PI / 2;
+        group.add(ring);
+      }
+      const field = new THREE.Mesh(
+        new THREE.SphereGeometry(0.55, 32, 32),
+        new THREE.MeshStandardMaterial({ color: 0xff7f66, emissive: 0x220000, roughness: 0.3 })
+      );
+      group.add(field);
+      scene.add(group);
+      return {
+        group,
+        tick: (t) => {
+          group.children.forEach((child, index) => {
+            if (child.geometry.type === "TorusGeometry") {
+              const s = 1 + Math.sin(t * 2 + index) * 0.08;
+              child.scale.set(s, s, s);
+              child.material.opacity = 0.4 + Math.sin(t * 2 + index) * 0.2;
+            }
+          });
+          group.rotation.y = t * 0.2;
+        }
+      };
+    }
+
+    function createCore(scene) {
+      const group = new THREE.Group();
+      const core = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(0.6, 1),
+        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2, metalness: 0.6 })
+      );
+      group.add(core);
+      const satellites = [];
+      const satGeo = new THREE.SphereGeometry(0.12, 16, 16);
+      const satMat = new THREE.MeshStandardMaterial({ color: 0xffb25c, roughness: 0.3, metalness: 0.5 });
+      for (let i = 0; i < 6; i += 1) {
+        const sat = new THREE.Mesh(satGeo, satMat);
+        sat.userData = { angle: i * (Math.PI * 2 / 6) };
+        satellites.push(sat);
+        group.add(sat);
+      }
+      scene.add(group);
+      return {
+        group,
+        tick: (t) => {
+          satellites.forEach((sat, i) => {
+            const angle = sat.userData.angle + t * 0.8;
+            sat.position.set(Math.cos(angle) * 1.2, Math.sin(angle * 0.9) * 0.5, Math.sin(angle) * 1.2);
+          });
+          group.rotation.y = t * 0.15;
+        }
+      };
+    }
+
+    function createField(scene) {
+      const group = new THREE.Group();
+      const material = new THREE.PointsMaterial({ color: 0xc2d6c5, size: 0.04 });
+      const geo = new THREE.BufferGeometry();
+      const points = [];
+      for (let i = 0; i < 420; i += 1) {
+        points.push((Math.random() - 0.5) * 4.2, (Math.random() - 0.5) * 2.6, (Math.random() - 0.5) * 3.2);
+      }
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+      const cloud = new THREE.Points(geo, material);
+      group.add(cloud);
+      scene.add(group);
+      return { group, tick: (t) => { cloud.rotation.y = t * 0.15; cloud.rotation.x = t * 0.08; } };
+    }
+
+    function createSpiral(scene) {
+      const group = new THREE.Group();
+      const material = new THREE.MeshStandardMaterial({ color: 0xffb25c, roughness: 0.25, metalness: 0.6 });
+      const geo = new THREE.SphereGeometry(0.08, 12, 12);
+      for (let i = 0; i < 120; i += 1) {
+        const t = i / 120;
+        const angle = t * Math.PI * 8;
+        const radius = 0.2 + t * 1.1;
+        const y = (t - 0.5) * 1.6;
+        const dot = new THREE.Mesh(geo, material);
+        dot.position.set(Math.cos(angle) * radius, y, Math.sin(angle) * radius);
+        group.add(dot);
+      }
+      scene.add(group);
+      return { group, tick: (t) => { group.rotation.y = t * 0.4; group.rotation.x = Math.sin(t * 0.4) * 0.2; } };
+    }
+
+    function createFragments(scene) {
+      const group = new THREE.Group();
+      const material = new THREE.MeshStandardMaterial({ color: 0xff7f66, roughness: 0.3, metalness: 0.5 });
+      const shards = [];
+      for (let i = 0; i < 18; i += 1) {
+        const shard = new THREE.Mesh(new THREE.TetrahedronGeometry(0.22, 0), material);
+        shard.position.set((Math.random() - 0.5) * 2.2, (Math.random() - 0.5) * 1.6, (Math.random() - 0.5) * 1.8);
+        shard.userData = { spin: Math.random() * 0.6 + 0.2 };
+        shards.push(shard);
+        group.add(shard);
+      }
+      scene.add(group);
+      return {
+        group,
+        tick: (t) => {
+          shards.forEach((shard, i) => {
+            shard.rotation.x = t * shard.userData.spin + i * 0.2;
+            shard.rotation.y = t * shard.userData.spin;
+          });
+          group.rotation.y = t * 0.2;
+        }
+      };
+    }
+
+    function addLights(scene) {
+      const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+      const key = new THREE.DirectionalLight(0xffffff, 0.9);
+      key.position.set(2, 3, 4);
+      const fill = new THREE.PointLight(0xffb25c, 0.8, 6);
+      fill.position.set(-2, 1, 2);
+      scene.add(ambient, key, fill);
+    }
+
+    function buildScene(wrapper) {
+      const canvas = wrapper.querySelector('canvas');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 20);
+      camera.position.set(0, 0, 4.4);
+      const renderer = createRenderer(canvas);
+      addLights(scene);
+
+      let rig;
+      switch (wrapper.dataset.scene) {
+        case 'helix':
+          rig = createHelix(scene);
+          break;
+        case 'network':
+          rig = createNetwork(scene);
+          break;
+        case 'layers':
+          rig = createLayers(scene);
+          break;
+        case 'pulse':
+          rig = createPulse(scene);
+          break;
+        case 'core':
+          rig = createCore(scene);
+          break;
+        case 'field':
+          rig = createField(scene);
+          break;
+        case 'spiral':
+          rig = createSpiral(scene);
+          break;
+        case 'fragments':
+          rig = createFragments(scene);
+          break;
+        default:
+          rig = createHelix(scene);
+      }
+
+      scenes.push({ wrapper, renderer, scene, camera, rig });
+    }
+
+    document.querySelectorAll('[data-scene]').forEach(buildScene);
+
+    window.addEventListener('mousemove', (event) => {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = (event.clientY / window.innerHeight) * 2 - 1;
+    });
+
+    function animate(time) {
+      const t = time * 0.001;
+      scenes.forEach(({ wrapper, renderer, scene, camera, rig }) => {
+        resizeRenderer(renderer, camera);
+        rig.group.rotation.x += (mouse.y * 0.2 - rig.group.rotation.x) * 0.02;
+        rig.group.rotation.y += (mouse.x * 0.2 - rig.group.rotation.y) * 0.02;
+        rig.tick(t);
+        renderer.render(scene, camera);
+      });
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
   </script>
 </body>
 </html>
