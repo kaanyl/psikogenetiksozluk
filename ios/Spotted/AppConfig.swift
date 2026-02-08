@@ -1,15 +1,20 @@
 import Foundation
 
 enum AppConfig {
-    static let useMockServer = true
+    static let useMockServer = false
 
     static let apiBaseURL: URL = {
+        #if targetEnvironment(simulator)
+        return URL(string: "http://127.0.0.1:3000")!
+        #else
         let key = "API_BASE_URL"
         if let value = Bundle.main.object(forInfoDictionaryKey: key) as? String,
+           !value.contains("example.com"),
            let url = URL(string: value) {
             return url
         }
-        return URL(string: "https://api.example.com")!
+        return URL(string: "http://192.168.0.17:3000")!
+        #endif
     }()
 
     static let mediaUploadPath = "/media/upload"

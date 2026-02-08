@@ -19,17 +19,20 @@ struct CreatePostView: View {
     let location: CLLocationCoordinate2D?
     let onOptimisticAdd: (Post) -> Void
     let onOptimisticRemove: (UUID) -> Void
+    let onOptimisticReplace: (UUID, UUID) -> Void
     let onDidSubmit: () -> Void
 
     init(
         location: CLLocationCoordinate2D?,
         onOptimisticAdd: @escaping (Post) -> Void = { _ in },
         onOptimisticRemove: @escaping (UUID) -> Void = { _ in },
+        onOptimisticReplace: @escaping (UUID, UUID) -> Void = { _, _ in },
         onDidSubmit: @escaping () -> Void = {}
     ) {
         self.location = location
         self.onOptimisticAdd = onOptimisticAdd
         self.onOptimisticRemove = onOptimisticRemove
+        self.onOptimisticReplace = onOptimisticReplace
         self.onDidSubmit = onDidSubmit
     }
 
@@ -204,7 +207,8 @@ struct CreatePostView: View {
                 lng: location.longitude
             )
 
-            try await APIClient.shared.createPost(request)
+            let serverId = try await APIClient.shared.createPost(request)
+            onOptimisticReplace(tempId, serverId)
             onDidSubmit()
             dismiss()
         } catch {
@@ -233,7 +237,8 @@ struct CreatePostView: View {
             score: 0,
             commentCount: 0,
             createdAt: Date(),
-            userVote: 0
+            userVote: 0,
+            expiresAt: Date().addingTimeInterval(24 * 60 * 60)
         )
     }
 }

@@ -1,20 +1,5 @@
 import SwiftUI
 
-struct TopBar: View {
-    var body: some View {
-        HStack {
-            Text("İstanbul · 1 km")
-                .font(.headline)
-            Spacer()
-            Circle()
-                .fill(Color.gray.opacity(0.3))
-                .frame(width: 32, height: 32)
-        }
-        .padding(.horizontal, 16)
-        .frame(height: 56)
-    }
-}
-
 struct VoteButton: View {
     let isUp: Bool
     let isSelected: Bool
@@ -25,11 +10,13 @@ struct VoteButton: View {
             Image(systemName: isUp ? "arrow.up" : "arrow.down")
                 .foregroundColor(isSelected ? (isUp ? .green : .red) : .gray)
         }
+        .buttonStyle(.borderless)
     }
 }
 
 struct SponsorCardView: View {
     let ad: AdCard
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         HStack(spacing: 12) {
@@ -45,7 +32,9 @@ struct SponsorCardView: View {
 
             Spacer()
 
-            Button("Git") { }
+            Button("Git") {
+                openURL(ad.linkURL)
+            }
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
                 .background(Color.blue)
@@ -113,19 +102,31 @@ struct PostCardView: View {
 
 struct PollView: View {
     let poll: Poll
+    @State private var selectedOptionId: UUID? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(poll.question).font(.subheadline).bold()
             ForEach(poll.options) { option in
-                HStack {
-                    Text(option.text).font(.footnote)
-                    Spacer()
-                    Text("\(option.votePercent)%").font(.footnote)
+                Button {
+                    selectedOptionId = option.id
+                } label: {
+                    HStack {
+                        Text(option.text).font(.footnote)
+                        Spacer()
+                        if selectedOptionId == option.id {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
+                        } else {
+                            Text("\(option.votePercent)%").font(.footnote)
+                        }
+                    }
+                    .padding(8)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(selectedOptionId == option.id ? Color.green.opacity(0.15) : Color.blue.opacity(0.1))
+                    .cornerRadius(8)
                 }
-                .padding(8)
-                .background(Color.blue.opacity(0.1))
-                .cornerRadius(8)
+                .buttonStyle(.plain)
             }
         }
     }

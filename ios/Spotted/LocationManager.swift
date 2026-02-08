@@ -1,14 +1,9 @@
 import Foundation
 import CoreLocation
 
-extension CLLocationCoordinate2D: Equatable {
-    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
-    }
-}
-
 final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var location: CLLocationCoordinate2D? = nil
+    @Published var locationToken = UUID()
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var errorMessage: String? = nil
 
@@ -22,6 +17,10 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     }
 
     func requestWhenInUse() {
+        if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
+            requestLocation()
+            return
+        }
         manager.requestWhenInUseAuthorization()
     }
 
@@ -46,10 +45,17 @@ final class LocationManager: NSObject, ObservableObject, CLLocationManagerDelega
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let loc = locations.first?.coordinate {
             location = loc
+            locationToken = UUID()
         }
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if location == nil {
+            location = CLLocationCoordinate2D(latitude: 41.0369, longitude: 28.9851)
+            locationToken = UUID()
+            errorMessage = "Konum alınamadı. Varsayılan konum (Taksim) kullanılıyor."
+            return
+        }
         errorMessage = error.localizedDescription
     }
 }

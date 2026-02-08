@@ -40,7 +40,8 @@ actor MockServer {
             score: 0,
             commentCount: 0,
             createdAt: Date(),
-            userVote: 0
+            userVote: 0,
+            expiresAt: Date().addingTimeInterval(24 * 60 * 60)
         )
         posts.insert(post, at: 0)
     }
@@ -61,7 +62,8 @@ actor MockServer {
             score: post.score + delta,
             commentCount: post.commentCount,
             createdAt: post.createdAt,
-            userVote: newVote
+            userVote: newVote,
+            expiresAt: post.expiresAt
         )
         posts[idx] = updated
     }
@@ -84,7 +86,8 @@ actor MockServer {
                 score: post.score,
                 commentCount: post.commentCount + 1,
                 createdAt: post.createdAt,
-                userVote: post.userVote
+                userVote: post.userVote,
+                expiresAt: post.expiresAt
             )
             posts[idx] = updated
         }

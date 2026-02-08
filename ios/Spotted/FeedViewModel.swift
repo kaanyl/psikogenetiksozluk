@@ -16,24 +16,28 @@ final class FeedViewModel: ObservableObject {
         self.ad = ad
     }
 
-    func loadFeed(location: CLLocationCoordinate2D) async {
+    func loadFeed(location: CLLocationCoordinate2D, radiusKm: Double) async {
         isLoading = true
         defer { isLoading = false }
         do {
             let response = try await APIClient.shared.getFeed(
                 lat: location.latitude,
                 lng: location.longitude,
-                radiusKm: 1
+                radiusKm: radiusKm
             )
-            posts = response.posts.sorted { $0.score > $1.score }
+            posts = response.posts
+                .filter { $0.expiresAt == nil || $0.expiresAt! > Date() }
+                .sorted { $0.score > $1.score }
             ad = response.ad
             nextCursor = response.nextCursor
+            errorMessage = nil
         } catch {
+            if isCancellation(error) { return }
             errorMessage = error.localizedDescription
         }
     }
 
-    func loadMore(location: CLLocationCoordinate2D) async {
+    func loadMore(location: CLLocationCoordinate2D, radiusKm: Double) async {
         guard !isLoadingMore, let cursor = nextCursor else { return }
         isLoadingMore = true
         defer { isLoadingMore = false }
@@ -41,15 +45,23 @@ final class FeedViewModel: ObservableObject {
             let response = try await APIClient.shared.getFeed(
                 lat: location.latitude,
                 lng: location.longitude,
-                radiusKm: 1,
+                radiusKm: radiusKm,
                 cursor: cursor
             )
-            posts.append(contentsOf: response.posts)
+            let filtered = response.posts.filter { $0.expiresAt == nil || $0.expiresAt! > Date() }
+            posts.append(contentsOf: filtered)
             posts.sort { $0.score > $1.score }
             nextCursor = response.nextCursor
         } catch {
+            if isCancellation(error) { return }
             errorMessage = error.localizedDescription
         }
+    }
+
+    private func isCancellation(_ error: Error) -> Bool {
+        if error is CancellationError { return true }
+        if let urlError = error as? URLError, urlError.code == .cancelled { return true }
+        return false
     }
 
     var items: [FeedItem] {
@@ -70,6 +82,19 @@ final class FeedViewModel: ObservableObject {
             result.append(FeedItem(id: sponsorId, kind: .sponsor(ad, index: -1)))
         }
         return result
+    }
+
+    var pulsePosts: [Post] {
+        let cutoff = Date().addingTimeInterval(-15 * 60)
+        return posts
+            .filter { $0.createdAt >= cutoff }
+            .sorted { $0.score > $1.score }
+    }
+
+    var topPollPosts: [Post] {
+        posts
+            .filter { $0.type == .poll }
+            .sorted { $0.score > $1.score }
     }
 
     struct VoteUpdate {
@@ -96,7 +121,8 @@ final class FeedViewModel: ObservableObject {
             score: post.score + delta,
             commentCount: post.commentCount,
             createdAt: post.createdAt,
-            userVote: newVote
+            userVote: newVote,
+            expiresAt: post.expiresAt
         )
         posts[idx] = updated
         return VoteUpdate(postId: postId, oldVote: oldVote, newVote: newVote, delta: delta)
@@ -115,7 +141,8 @@ final class FeedViewModel: ObservableObject {
             score: post.score - update.delta,
             commentCount: post.commentCount,
             createdAt: post.createdAt,
-            userVote: update.oldVote
+            userVote: update.oldVote,
+            expiresAt: post.expiresAt
         )
         posts[idx] = updated
     }

@@ -7,6 +7,7 @@ final class PostDetailViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var isLoadingMore = false
     @Published var errorMessage: String? = nil
+    @Published var isReady: Bool = false
 
     private var nextCursor: String? = nil
 
@@ -22,7 +23,16 @@ final class PostDetailViewModel: ObservableObject {
             post = response.post
             comments = response.comments
             nextCursor = response.nextCursor
+            isReady = true
+            errorMessage = nil
         } catch {
+            if case let APIError.http(_, code, _) = error, code == "not_found" {
+                // Post not found on server; keep the feed copy and show nothing.
+                isReady = false
+                errorMessage = "Post sunucuda bulunamadı."
+                return
+            }
+            isReady = false
             errorMessage = error.localizedDescription
         }
     }
@@ -36,6 +46,10 @@ final class PostDetailViewModel: ObservableObject {
             comments.append(contentsOf: response.comments)
             nextCursor = response.nextCursor
         } catch {
+            if case let APIError.http(_, code, _) = error, code == "not_found" {
+                errorMessage = nil
+                return
+            }
             errorMessage = error.localizedDescription
         }
     }
@@ -60,7 +74,8 @@ final class PostDetailViewModel: ObservableObject {
             score: post.score + delta,
             commentCount: post.commentCount,
             createdAt: post.createdAt,
-            userVote: newVote
+            userVote: newVote,
+            expiresAt: post.expiresAt
         )
         return VoteUpdate(oldVote: oldVote, newVote: newVote, delta: delta)
     }
@@ -76,7 +91,8 @@ final class PostDetailViewModel: ObservableObject {
             score: post.score - update.delta,
             commentCount: post.commentCount,
             createdAt: post.createdAt,
-            userVote: update.oldVote
+            userVote: update.oldVote,
+            expiresAt: post.expiresAt
         )
     }
 
@@ -93,7 +109,8 @@ final class PostDetailViewModel: ObservableObject {
             score: post.score,
             commentCount: post.commentCount + 1,
             createdAt: post.createdAt,
-            userVote: post.userVote
+            userVote: post.userVote,
+            expiresAt: post.expiresAt
         )
         return tempId
     }
@@ -110,7 +127,8 @@ final class PostDetailViewModel: ObservableObject {
             score: post.score,
             commentCount: max(0, post.commentCount - 1),
             createdAt: post.createdAt,
-            userVote: post.userVote
+            userVote: post.userVote,
+            expiresAt: post.expiresAt
         )
     }
 }

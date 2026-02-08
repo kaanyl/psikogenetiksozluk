@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  phoneE164 String   @unique
+  nickname  String
+  deviceId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions  Session[]
+  posts     Post[]
+  comments  Comment[]
+  votes     Vote[]
+  pollVotes PollVote[]
+  reports   Report[]
+  deviceTokens DeviceToken[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id           String    @id @default(uuid())
+  userId       String
+  type         PostType
+  text         String?
+  photoUrl     String?
+  linkUrl      String?
+  pollId       String?
+  lat          Float
+  lng          Float
+  score        Int       @default(0)
+  commentCount Int       @default(0)
+  isHidden     Boolean   @default(false)
+  expiresAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id])
+  poll    Poll?    @relation(fields: [pollId], references: [id])
+  votes   Vote[]
+  comments Comment[]
+  reports Report[]
+
+  @@index([createdAt])
+  @@index([score])
+  @@index([lat, lng])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  postId    String
+  userId    String
+  text      String
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Vote {
+  id        String   @id @default(uuid())
+  postId    String
+  userId    String
+  value     Int
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([postId, userId])
+}
+
+model Poll {
+  id        String       @id @default(uuid())
+  question  String
+  options   PollOption[]
+  votes     PollVote[]
+  posts     Post[]
+}
+
+model PollOption {
+  id      String @id @default(uuid())
+  pollId  String
+  text    String
+
+  poll Poll @relation(fields: [pollId], references: [id])
+  votes PollVote[]
+}
+
+model PollVote {
+  id        String   @id @default(uuid())
+  pollId    String
+  optionId  String
+  userId    String
+  createdAt DateTime @default(now())
+
+  poll   Poll       @relation(fields: [pollId], references: [id])
+  option PollOption @relation(fields: [optionId], references: [id])
+  user   User       @relation(fields: [userId], references: [id])
+
+  @@unique([pollId, userId])
+}
+
+model Report {
+  id        String   @id @default(uuid())
+  postId    String
+  userId    String
+  reason    String
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Ad {
+  id        String   @id @default(uuid())
+  title     String
+  imageUrl  String?
+  linkUrl   String
+  city      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model DeviceToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  platform  String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum PostType {
+  text
+  photo
+  link
+  poll
+}

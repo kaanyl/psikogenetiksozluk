@@ -15,9 +15,12 @@ struct Post: Identifiable, Codable, Hashable {
     let commentCount: Int
     let createdAt: Date
     let userVote: Int
+    let expiresAt: Date?
 
     enum CodingKeys: String, CodingKey {
-        case id, type, text, photoURL, linkURL, poll, score, commentCount, createdAt, userVote
+        case id, type, text, poll, score, commentCount, createdAt, userVote, expiresAt
+        case photoURL = "photoUrl"
+        case linkURL = "linkUrl"
     }
 
     init(
@@ -30,7 +33,8 @@ struct Post: Identifiable, Codable, Hashable {
         score: Int,
         commentCount: Int,
         createdAt: Date,
-        userVote: Int
+        userVote: Int,
+        expiresAt: Date?
     ) {
         self.id = id
         self.type = type
@@ -42,6 +46,7 @@ struct Post: Identifiable, Codable, Hashable {
         self.commentCount = commentCount
         self.createdAt = createdAt
         self.userVote = userVote
+        self.expiresAt = expiresAt
     }
 
     init(from decoder: Decoder) throws {
@@ -56,6 +61,7 @@ struct Post: Identifiable, Codable, Hashable {
         commentCount = try container.decode(Int.self, forKey: .commentCount)
         createdAt = try container.decode(Date.self, forKey: .createdAt)
         userVote = try container.decodeIfPresent(Int.self, forKey: .userVote) ?? 0
+        expiresAt = try container.decodeIfPresent(Date.self, forKey: .expiresAt)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -70,6 +76,7 @@ struct Post: Identifiable, Codable, Hashable {
         try container.encode(commentCount, forKey: .commentCount)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(userVote, forKey: .userVote)
+        try container.encodeIfPresent(expiresAt, forKey: .expiresAt)
     }
 }
 
@@ -83,6 +90,23 @@ struct PollOption: Identifiable, Codable, Hashable {
     let id: UUID
     let text: String
     let votePercent: Int
+
+    enum CodingKeys: String, CodingKey {
+        case id, text, votePercent
+    }
+
+    init(id: UUID, text: String, votePercent: Int) {
+        self.id = id
+        self.text = text
+        self.votePercent = votePercent
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(UUID.self, forKey: .id)
+        text = try container.decode(String.self, forKey: .text)
+        votePercent = try container.decodeIfPresent(Int.self, forKey: .votePercent) ?? 0
+    }
 }
 
 struct Comment: Identifiable, Codable {
@@ -97,4 +121,10 @@ struct AdCard: Identifiable, Codable, Hashable {
     let title: String
     let imageURL: URL?
     let linkURL: URL
+
+    enum CodingKeys: String, CodingKey {
+        case id, title
+        case imageURL = "imageUrl"
+        case linkURL = "linkUrl"
+    }
 }

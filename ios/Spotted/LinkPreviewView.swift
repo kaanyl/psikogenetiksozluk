@@ -1,6 +1,7 @@
 import SwiftUI
 import LinkPresentation
 
+@MainActor
 final class LinkPreviewModel: ObservableObject {
     @Published var metadata: LPLinkMetadata? = nil
     @Published var errorMessage: String? = nil
@@ -23,21 +24,16 @@ final class LinkPreviewModel: ObservableObject {
             guard let self, !Task.isCancelled else { return }
 
             let provider = LPMetadataProvider()
-            provider.startFetchingMetadata(for: url) { [weak self] metadata, error in
-                guard let self else { return }
-                DispatchQueue.main.async {
-                    guard self.latestURL == url else { return }
-                    if let error {
-                        self.errorMessage = error.localizedDescription
-                        self.metadata = nil
-                        return
-                    }
-                    if let metadata {
-                        self.cache[url] = metadata
-                        self.metadata = metadata
-                        self.errorMessage = nil
-                    }
-                }
+            do {
+                let meta = try await provider.startFetchingMetadata(for: url)
+                guard self.latestURL == url else { return }
+                self.cache[url] = meta
+                self.metadata = meta
+                self.errorMessage = nil
+            } catch {
+                guard self.latestURL == url else { return }
+                self.errorMessage = error.localizedDescription
+                self.metadata = nil
             }
         }
     }

@@ -17,18 +17,19 @@ settings:
     INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Fotoğraf paylaşımı için fotoğraf erişimi gerekir."
     INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "Paylaştığınız fotoğrafları kaydetmek için izin gerekir."
     INFOPLIST_KEY_NSCameraUsageDescription: "Fotoğraf çekip paylaşmak için kamera izni gerekir."
-    INFOPLIST_KEY_API_BASE_URL: "https://api.example.com"
+    INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoads: true
+    INFOPLIST_KEY_API_BASE_URL: "http://192.168.0.17:3000"
     INFOPLIST_KEY_API_BASE_URL_STAGING: "https://api-staging.example.com"
 
 configurations:
   Debug:
     settings:
       base:
-        INFOPLIST_KEY_API_BASE_URL: "https://api-staging.example.com"
+        INFOPLIST_KEY_API_BASE_URL: "http://192.168.0.17:3000"
   Release:
     settings:
       base:
-        INFOPLIST_KEY_API_BASE_URL: "https://api.example.com"
+        INFOPLIST_KEY_API_BASE_URL: "http://192.168.0.17:3000"
 
 targets:
   Spotted:

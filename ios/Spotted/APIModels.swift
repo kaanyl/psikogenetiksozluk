@@ -30,6 +30,10 @@ struct PostCreateRequest: Encodable {
     let lng: Double
 }
 
+struct PostCreateResponse: Decodable {
+    let id: UUID
+}
+
 struct PollCreateRequest: Encodable {
     let question: String
     let options: [String]

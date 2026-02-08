@@ -99,15 +99,17 @@ final class APIClient {
         return try JSONDecoder.api.decode(PostDetailResponse.self, from: data)
     }
 
-    func createPost(_ request: PostCreateRequest) async throws {
+    func createPost(_ request: PostCreateRequest) async throws -> UUID {
         if AppConfig.useMockServer {
             await MockServer.shared.createPost(request)
-            return
+            return UUID()
         }
         var req = makeRequest(path: "/posts", method: "POST")
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try JSONEncoder.api.encode(request)
-        _ = try await perform(req)
+        let data = try await perform(req)
+        let response = try JSONDecoder.api.decode(PostCreateResponse.self, from: data)
+        return response.id
     }
 
     func vote(postId: UUID, value: Int) async throws {

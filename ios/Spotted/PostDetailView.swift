@@ -94,6 +94,10 @@ struct PostDetailView: View {
     private func submitComment() async {
         let trimmed = commentText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
+        guard viewModel.isReady else {
+            viewModel.errorMessage = "Post sunucuda hazır değil. Lütfen yenileyip tekrar dene."
+            return
+        }
 
         isSending = true
         let tempId = viewModel.addOptimisticComment(text: trimmed)
